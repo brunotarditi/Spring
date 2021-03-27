@@ -4,6 +4,11 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Clase Producto es la que almacenará cada producto relacionado a un Rubro
+ * @author Bruno Tarditi
+ */
+
 @Data
 @Entity
 @Table(name = "producto")

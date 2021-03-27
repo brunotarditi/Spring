@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Se crea una clase que será el controlador de Producto para las distintas peticiones http
+ * @author Bruno Tarditi
+ */
 @RestController
 @RequestMapping("/producto")
 @CrossOrigin(origins = "*")
@@ -16,47 +20,78 @@ import java.util.Optional;
 public class ProductoController {
 
     private final ProductoService productoService;
+    /**
+     * Se pasa por parámetro un objeto de tipo ProductoService para acceder a los métodos del servicio
+     * @param productoService - Objeto ProductoService
+     */
     @Autowired
     public ProductoController(ProductoService productoService) {
         this.productoService = productoService;
     }
-    //Petición get para traer todos los productos
+
+    /**
+     * A través de la petición get podemos realizar la petición que listará todos los productos
+     */
     @GetMapping()
     public List<Producto> getAllProductos() {
         return this.productoService.findByAll();
     }
 
-    //Petición get para traer por el id del producto
+    /**
+     *
+     * @param id Long
+     * @return A través de la petición get devuelve un Producto pasando al path la variable id del Producto
+     */
     @GetMapping(path = "/{id}")
     public Optional<Producto> getProducto(@PathVariable("id") Long id) {
         return this.productoService.findById(id);
     }
 
-    //Petición get para traer los productos asociados al id del rubro
+    /**
+     *
+     * @param id Long
+     * @return A través de la petición get pasando al parámetro 'id?rubro=' devuelve un Producto asociado al id del Rubro
+     */
     @GetMapping("/id")
     public List<Producto> getIdRubro(@RequestParam("rubro") Long id) {
         return this.productoService.findByIdRubro(id);
     }
 
-    //Petición post que me permite guardar un producto
+    /**
+     *
+     * @param producto Producto
+     * @return A través de la petición post guarda un Producto
+     */
     @PostMapping()
     public Producto saveProducto(@RequestBody Producto producto) {
         return this.productoService.save(producto);
     }
 
-    //Petición put que me permite actualizar un producto
+    /**
+     *
+     * @param producto Producto
+     * @return A través de la petición put actualiza un Producto
+     */
     @PutMapping()
     public Producto updateProducto(@RequestBody Producto producto) {
         return this.productoService.update(producto);
     }
 
-    //Petición delete que por el id puedo borrar un producto
+    /**
+     *
+     * @param id Long
+     * A través de la petición delete, elimina un Producto pasando al path la variable id del Producto
+     */
     @DeleteMapping(path = "/{id}")
     public void deleteProducto(@PathVariable("id") Long id) {
         this.productoService.delete(id);
     }
 
-    //Petición get que mediante una un parametro puedo buscar por el codigo del producto
+    /**
+     *
+     * @param codigo String
+     * @return A través de la petición get pasando al parámetro 'query?codigo=' devuelve un Producto
+     */
     @GetMapping(path = "/query")
     public List<Producto> findByCodigo(@RequestParam("codigo") String codigo) {
         return this.productoService.findByCodigo(codigo);

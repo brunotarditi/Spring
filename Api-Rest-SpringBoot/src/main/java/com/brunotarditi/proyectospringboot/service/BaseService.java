@@ -1,12 +1,15 @@
 package com.brunotarditi.proyectospringboot.service;
 
-
 import java.util.List;
 import java.util.Optional;
 
-public interface BaseService<E> {
+/**
+ * BaseService es una interface en la que espera una Entidad e implementa métodos genéricos para un CRUD
+ * @author Bruno Tarditi
+ * @param <E> Entidad
+ */
 
-    /*Cada clase que implemente esta interface deberá crear las operaciones básicas del CRUD*/
+public interface BaseService<E> {
 
     List<E> findByAll();
     Optional<E> findById(Long id);

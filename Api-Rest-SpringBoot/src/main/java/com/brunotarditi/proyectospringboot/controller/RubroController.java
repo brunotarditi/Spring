@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * Se crea una clase que será el controlador de Rubro para las distintas peticiones http
+ * @author Bruno Tarditi
+ */
 @RestController
 @RequestMapping("/rubro")
 @CrossOrigin(origins = "*")
@@ -17,36 +22,58 @@ public class RubroController {
 
     private final RubroService rubroService;
 
+    /**
+     * Se pasa por parámetro un objeto de tipo RubroService para acceder a los métodos del servicio
+     * @param rubroService - Objeto RubroService
+     */
     @Autowired
     public RubroController(RubroService rubroService) {
         this.rubroService = rubroService;
     }
 
-    //Petición get para traer todos los productos
+    /**
+     * A través de la petición get podemos realizar la petición que listará todos los rubros
+     */
     @GetMapping()
     public List<Rubro> getAllRubro() {
         return rubroService.findByAll();
     }
 
-    //Petición get que me permite buscar por el id el rubro
+    /**
+     *
+     * @param id Long
+     * @return A través de la petición get devuelve un Rubro pasando al path la variable id del Rubro
+     */
     @GetMapping(path = "/{id}")
     public Optional<Rubro> getRubro(@PathVariable("id") Long id) {
         return rubroService.findById(id);
     }
 
-    //Petición post que me permite guardar un rubro
+    /**
+     *
+     * @param rubro Rubro
+     * @return A través de la petición post guarda un Rubro
+     */
     @PostMapping()
     public Rubro saveRubro(@RequestBody Rubro rubro) {
         return rubroService.save(rubro);
     }
 
-    //Petición put que me permite actualizar un rubro
+    /**
+     *
+     * @param rubro Rubro
+     * @return A través de la petición put actualiza un Rubro
+     */
     @PutMapping()
     public Rubro updateProduct(@RequestBody Rubro rubro) {
         return this.rubroService.update(rubro);
     }
 
-    //Petición delete que me permite eliminar un rubro por el id
+    /**
+     *
+     * @param id Long
+     * A través de la petición delete, elimina un Rubro pasando al path la variable id del Rubro
+     */
     @DeleteMapping(path = "/{id}")
     public void deleteRubro(@PathVariable("id") Long id) {
         rubroService.delete(id);

@@ -7,6 +7,10 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Clase Rubro es la que almacenará cada rubro y este contendrá muchos productos
+ * @author Bruno Tarditi
+ */
 @Data
 @Entity
 @Table(name = "rubro")
