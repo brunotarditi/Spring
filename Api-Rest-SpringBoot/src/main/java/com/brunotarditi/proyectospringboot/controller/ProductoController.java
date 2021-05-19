@@ -4,6 +4,7 @@ import com.brunotarditi.proyectospringboot.model.Producto;
 import com.brunotarditi.proyectospringboot.service.ProductoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Optional;
  * @author Bruno Tarditi
  */
 @RestController
-@RequestMapping("/producto")
+@RequestMapping("/productos")
 @CrossOrigin(origins = "*")
 @Slf4j
 public class ProductoController {
@@ -62,6 +63,7 @@ public class ProductoController {
      * @param producto Producto
      * @return A través de la petición post guarda un Producto
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Producto saveProducto(@RequestBody Producto producto) {
         return this.productoService.save(producto);
@@ -72,6 +74,7 @@ public class ProductoController {
      * @param producto Producto
      * @return A través de la petición put actualiza un Producto
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping()
     public Producto updateProducto(@RequestBody Producto producto) {
         return this.productoService.update(producto);
@@ -82,6 +85,7 @@ public class ProductoController {
      * @param id Long
      * A través de la petición delete, elimina un Producto pasando al path la variable id del Producto
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "/{id}")
     public void deleteProducto(@PathVariable("id") Long id) {
         this.productoService.delete(id);
