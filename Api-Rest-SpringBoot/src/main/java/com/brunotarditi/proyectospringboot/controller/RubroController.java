@@ -4,6 +4,7 @@ import com.brunotarditi.proyectospringboot.model.Rubro;
 import com.brunotarditi.proyectospringboot.service.RubroService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.Optional;
  * @author Bruno Tarditi
  */
 @RestController
-@RequestMapping("/rubro")
+@RequestMapping("/rubros")
 @CrossOrigin(origins = "*")
 @Slf4j
 public class RubroController {
@@ -54,6 +55,7 @@ public class RubroController {
      * @param rubro Rubro
      * @return A través de la petición post guarda un Rubro
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public Rubro saveRubro(@RequestBody Rubro rubro) {
         return rubroService.save(rubro);
@@ -64,6 +66,7 @@ public class RubroController {
      * @param rubro Rubro
      * @return A través de la petición put actualiza un Rubro
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping()
     public Rubro updateProduct(@RequestBody Rubro rubro) {
         return this.rubroService.update(rubro);
@@ -74,11 +77,10 @@ public class RubroController {
      * @param id Long
      * A través de la petición delete, elimina un Rubro pasando al path la variable id del Rubro
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "/{id}")
     public void deleteRubro(@PathVariable("id") Long id) {
         rubroService.delete(id);
     }
-
-
 
 }
