@@ -17,7 +17,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/rubros")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @Slf4j
 public class RubroController {
 

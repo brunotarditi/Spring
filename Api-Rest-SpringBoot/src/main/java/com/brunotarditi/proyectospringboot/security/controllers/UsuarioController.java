@@ -23,12 +23,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioController {
 
     PasswordEncoder passwordEncoder;
@@ -62,7 +63,7 @@ public class UsuarioController {
             roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
         usuario.setRoles(roles);
         usuarioService.save(usuario);
-        return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new Mensaje("usuario guardado"), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -73,8 +74,13 @@ public class UsuarioController {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getClave()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-        return new ResponseEntity(jwtDto, HttpStatus.OK);
+        JwtDto jwtDto = new JwtDto(jwt);
+        return new ResponseEntity<>(jwtDto, HttpStatus.OK);
+    }
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtDto> refreshToken(@RequestBody JwtDto jwtDto) throws ParseException {
+        String token = jwtProvider.refreshToken(jwtDto);
+        JwtDto jwt = new JwtDto(token);
+        return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
 }
